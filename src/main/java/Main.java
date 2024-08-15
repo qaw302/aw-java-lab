@@ -1,46 +1,66 @@
-import list.ArrayList;
-import list.LinkedList;
+import queue.ArrayQueue;
 
-import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) {
+        // ArrayQueue 인스턴스 생성
+        Queue<Integer> queue = new ArrayQueue<>();
 
-        // MyList라는 이름의 사용자 정의 List 클래스 인스턴스 생성
-        List<String> myList = new LinkedList<>();
+        // 큐에 요소 추가 (enqueue)
+        System.out.println("Adding elements to the queue:");
+        queue.add(1);
+        queue.add(2);
+        queue.add(3);
+        queue.add(4);
+        queue.add(5);
 
-        // List에 요소 추가
-        myList.add("Apple");
-        myList.add("Banana");
-        myList.add("Cherry");
+        // 큐의 현재 상태 확인
+        System.out.println("Queue after adding elements: ");
+        printQueue(queue);
 
-        // 예상 결과와 실제 결과 비교
-        boolean sizeTest = myList.size() == 3;
-        System.out.println("Test size == 3: " + sizeTest);  // true
+        // 첫 번째 요소 확인 (peek)
+        System.out.println("Peek: " + queue.peek()); // Should print 1
 
-        // List의 요소 비교
-        boolean elementsTest = myList.get(0).equals("Apple") &&
-                myList.get(1).equals("Banana") &&
-                myList.get(2).equals("Cherry");
-        System.out.println("Test elements == [Apple, Banana, Cherry]: " + elementsTest);  // true
+        // 큐에서 요소 제거 (dequeue)
+        System.out.println("Polling elements from the queue:");
+        System.out.println(queue.poll()); // Should print 1
+        System.out.println(queue.poll()); // Should print 2
 
-        // 특정 요소 제거
-        myList.remove("Banana");
+        // 큐의 현재 상태 확인
+        System.out.println("Queue after polling elements: ");
+        printQueue(queue);
 
-        // 요소 제거 후 다시 테스트
-        boolean removeTest = myList.size() == 2 &&
-                myList.get(0).equals("Apple") &&
-                myList.get(1).equals("Cherry");
-        System.out.println("Test after removing 'Banana': " + removeTest);  // true
+        // 큐에 추가적인 요소 추가
+        System.out.println("Adding more elements to the queue:");
+        queue.add(6);
+        queue.add(7);
 
-        // List의 첫 번째 요소 가져오기
-        boolean firstElementTest = myList.get(0).equals("Apple");
-        System.out.println("Test first element == 'Apple': " + firstElementTest);  // true
+        // 큐의 현재 상태 확인
+        System.out.println("Queue after adding more elements: ");
+        printQueue(queue);
 
-        // List 비우기
-        myList.clear();
-        boolean clearTest = myList.size() == 0;
-        System.out.println("Test size == 0 after clearing: " + clearTest);  // true
+        // 큐에서 모든 요소 제거 (clear)
+        queue.clear();
+        System.out.println("Queue after clearing: ");
+        System.out.println("Is queue empty? " + queue.isEmpty()); // Should print true
 
+        // 빈 큐에서 poll 및 remove 시도
+        try {
+            queue.remove(); // Should throw NoSuchElementException
+        } catch (NoSuchElementException e) {
+            System.out.println("Caught exception: " + e.getMessage());
+        }
+
+        System.out.println("Polling from empty queue: " + queue.poll()); // Should print null
+    }
+
+    // 큐의 요소를 출력하는 헬퍼 메서드
+    private static void printQueue(Queue<?> queue) {
+        for (Object element : queue) {
+            System.out.print(element + " ");
+        }
+        System.out.println();
     }
 }
